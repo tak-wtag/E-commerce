@@ -3,11 +3,11 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "live.smtp.mailtrap.io",
+    address: "smtp.gmail.com",
     port: 587,
-    domain: "mailtrap.club", # Can use any other domain as well according to your convenience
-    user_name: "api",
-    password: "266558b2943a9e10bf9ba690e47b14c5",
+    domain: "gmail.com", # Can use any other domain as well according to your convenience
+    user_name: ENV['USERNAME'],
+    password: ENVp'PASSWORD,
     authentication: "plain",
     enable_starttls_auto: true
   }

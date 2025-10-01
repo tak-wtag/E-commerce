@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     def confirm_verification
         @user = User.find(params[:id])
         if @user.verification_code == params[:verification_code]
-            if @user.token_created_at <= 2.minutes.ago
+            if @user.token_created_at >= 2.minutes.ago
                 @user.update(verified: true, verification_code: nil)
                 redirect_to new_session_path, notice: t('user.verify_success')
             else
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     def resend_verification_code
         @user = User.find(params[:id])
         @user.update(verification_code: SecureRandom.hex(5).to_s, token_created_at: Time.current)
-        UserMailer.verification_email(@user).deliver_now
+        UserMailer.welcome_email(@user).deliver_now
 
         redirect_to verify_user_path(@user), notice: t('user.new_code')
     end
