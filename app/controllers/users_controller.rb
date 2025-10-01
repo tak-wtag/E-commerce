@@ -18,8 +18,14 @@ class UsersController < ApplicationController
     def confirm_verification
         @user = User.find(params[:id])
         if @user.verification_code == params[:verification_code]
-            @user.update(verified: true, verification_code: nil)
-            redirect_to new_session_path, notice: "Account verified! Log in."
+            if @user.token_created_at <= 2.minutes.ago
+                @user.update(verified: true, verification_code: nil)
+                redirect_to new_session_path, notice: "Account verified! Log in."
+            else
+                flash.now[:alert] = "Code has been expired"
+                render :verify, status: :unprocessable_entity
+            end
+
         else
             flash.now[:alert] = "Code invalid!"
             render :verify, status: :unprocessable_entity
@@ -27,7 +33,7 @@ class UsersController < ApplicationController
     end
     def resend_verification_code
         @user = User.find(params[:id])
-        @user.update(verification_code: rand(100000..999999).to_s)
+        @user.update(verification_code: SecureRandom.hex(5).to_s, token_created_at: Time.current)
         UserMailer.verification_email(@user).deliver_now
 
         redirect_to verify_user_path(@user), notice: "New code sent to your email."
@@ -41,3 +47,4 @@ class UsersController < ApplicationController
        params.require(:user).permit(:email, :username, :password, :password_confirmation)
    end
 end
+

@@ -13,8 +13,6 @@
         <% end %>
       <% end %>
 
-      <p class="mb-3">A verification code has been sent to your email.</p>
-
       <%= form_with url: confirm_verification_user_path(@user), local: true do |form| %>
         <div class="form-group row mt-3">
           <%= form.label :verification_code, "Enter the Code" %>
@@ -50,3 +48,4 @@
     }, 1000);
   });
 </script>
+
