@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-5">
+      <div class="mt-3">
+        <h1>Verify Account</h1>
+      </div>
+
+      <% if flash.any? %>
+        <% flash.each do |key, msg| %>
+          <div class="alert alert-<%= key == "notice" ? "success" : "danger" %>">
+            <%= msg %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%= form_with url: confirm_verification_user_path(@user), local: true do |form| %>
+        <div class="form-group row mt-3">
+          <%= form.label :verification_code, "Enter the Code" %>
+          <%= form.text_field :verification_code, class: "form-control", placeholder: "Enter the code from email" %>
+        </div>
+
+        <div class="form-group row mt-3">
+          <%= form.submit "Verify Account", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <p id="resend-info">You can resend the code at <span id="timer">30</span> seconds.</p>
+      <%= button_to "Resend Code", resend_verification_code_user_path(@user), method: :post, id: "resend-button", disabled: true, class: "btn btn-secondary mt-2" %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let timer = 30;
+    let button = document.getElementById("resend-button");
+    let timerText = document.getElementById("timer");
+
+    let countdown = setInterval(function() {
+      timer--;
+      timerText.textContent = timer;
+
+      if (timer <= 0) {
+        clearInterval(countdown);
+        button.disabled = false;
+        document.getElementById("resend-info").textContent = "Didn't receive the code? Resend now.";
+      }
+    }, 1000);
+  });
+</script>
+
