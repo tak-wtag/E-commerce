@@ -6,9 +6,9 @@ class UsersController < ApplicationController
        @user = User.new(user_params)
        if @user.save
             UserMailer.welcome_email(@user).deliver_now
-            redirect_to verify_user_path(@user), notice: "Code sent to your email."
+            redirect_to verify_user_path(@user), notice: t('user.code_sent')
        else
-           render :new, status: :unprocessable_entity, notice: "Try again"
+           render :new, status: :unprocessable_entity, notice: t('user.try_again')
        end
    end
    def verify
@@ -20,14 +20,14 @@ class UsersController < ApplicationController
         if @user.verification_code == params[:verification_code]
             if @user.token_created_at <= 2.minutes.ago
                 @user.update(verified: true, verification_code: nil)
-                redirect_to new_session_path, notice: "Account verified! Log in."
+                redirect_to new_session_path, notice: t('user.verify_success')
             else
-                flash.now[:alert] = "Code has been expired"
+                flash.now[:alert] = t('user.expire')
                 render :verify, status: :unprocessable_entity
             end
 
         else
-            flash.now[:alert] = "Code invalid!"
+            flash.now[:alert] = t('user.invalid')
             render :verify, status: :unprocessable_entity
         end
     end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         @user.update(verification_code: SecureRandom.hex(5).to_s, token_created_at: Time.current)
         UserMailer.verification_email(@user).deliver_now
 
-        redirect_to verify_user_path(@user), notice: "New code sent to your email."
+        redirect_to verify_user_path(@user), notice: t('user.new_code')
     end
 
    def show

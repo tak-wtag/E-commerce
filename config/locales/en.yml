@@ -29,3 +29,16 @@
 
 en:
   hello: "Hello world"
+  session:
+    login: "Login successful!"
+    verify_account: "Verify your account first!"
+    wrong: "Email or password is wrong"
+    out_of_account: "You are out of account!"
+  user:
+    code_sent: "Code sent to your email."
+    try_again: "Try again"
+    verify_success: "Account verified! Log in."
+    expire: "Code has been expired"
+    invalid: "Code invalid!"
+    new_code: "New code sent to your email."
+
