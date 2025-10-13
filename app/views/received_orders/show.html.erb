@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <h1 class="display-5 fw-bold mb-4">Order Details</h1>
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h5 class="card-title">Product: <%= @order.product.title %></h5>
+      <p class="card-text"><strong>Order Date:</strong> <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <p class="card-text"><strong>Quantity:</strong> <%= @order.quantity %></p>
+      <p class="card-text"><strong>Status:</strong> <span class="badge bg-primary"><%= @order.status %></span></p>
+
+      <hr class="my-4">
+
+      <h5 class="card-title">Shipping Information</h5>
+      <p class="card-text"><strong>Buyer:</strong> <%= @order.user.username %></p>
+      <p class="card-text"><strong>Address:</strong><br><%= simple_format(@order.address) %></p>
+
+      <% if @order.criteria.present? %>
+        <p class="card-text"><strong>Special Instructions:</strong> <%= @order.criteria %></p>
+      <% end %>
+
+      <div class="mt-4 d-flex justify-content-between">
+        <%= link_to "Back to All Orders", received_orders_path, class: "btn btn-secondary" %>  
+        <div class="d-flex gap-2">
+            <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

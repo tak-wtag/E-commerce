@@ -25,9 +25,9 @@
             <% if current_user == @product.user %>
                 <%= link_to "Edit", edit_product_path(@product), class: "btn btn-warning" %>
                 <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
-                <%= link_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+                <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
             <% else %>
-                <%= link_to "Add to Cart", '#', class: "btn btn-primary" %>
+                <%= link_to "Buy Now", new_product_order_path(@product), class: "btn btn-primary" %>
             <% end %>
         <% else %>
             <%= link_to "Log In", sessions_new_path, class: "btn btn-success" %>

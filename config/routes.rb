@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "received_orders/index"
+  get "received_orders/show"
+  get "orders/new"
+  get "orders/create"
   get "sessions/new"
   root to: "home#index"
   get "sign_up", to: "users#new"
@@ -13,6 +17,10 @@ Rails.application.routes.draw do
   end
   resources :sessions, only: [:new, :create]
   delete "logout", to: "sessions#destroy"
-  resources :products
+  resources :products do
+    resources :orders, only: [:new, :create] 
+  end
+  resources :orders, only: [:index, :show, :edit, :update, :destroy]
+  resources :received_orders, only: [:index, :show]
 end
 

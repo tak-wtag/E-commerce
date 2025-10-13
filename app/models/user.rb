@@ -2,6 +2,7 @@ require 'securerandom'
 class User < ApplicationRecord
     has_secure_password 
     has_many :products
+    has_many :orders
     before_create :generate_verification_code
     validates :username, presence: true
     validates :email, presence: true,
