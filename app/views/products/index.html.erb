@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold">Products</h1>
+    <%= link_to "Add New Product", new_product_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <% if product.picture.attached? %>
+            <%= image_tag product.picture.variant(resize_to_fill: [300, 200]), class: "card-img-top" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to product.title, product_path(product), class: "text-decoration-none" %></h5>
+            <p class="card-text text-success fs-5">$<%= product.price %></p>
+            <p class="card-text text-muted">
+              <small>
+                Status: <%= product.availability? ? 'Available' : 'Unavailable' %>
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
