@@ -3,10 +3,14 @@
     <h1 class="display-5 fw-bold">Products</h1>
     <% if logged_in? %>
         <div class="d-flex flex-column gap-2">
-            <%= link_to "Add New Product", new_product_path, class: "btn btn-primary" %>
-            <%= link_to "See Your Received Orders", received_orders_path, class: "btn btn-primary" %>
-            <%= link_to "Your Orders", orders_path, class: "btn btn-primary" %>
-            <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+            <% if current_user.seller? %>
+              <%= link_to "Add New Product", new_product_path, class: "btn btn-primary" %>
+              <%= link_to "Received Orders", received_orders_path, class: "btn btn-primary" %>
+              <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= link_to "My Orders", orders_path, class: "btn btn-primary" %>
+              <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+            <% end %>
         </div>
     <%else%>
         <%= link_to "Log In", sessions_new_path, class: "btn btn-success" %>

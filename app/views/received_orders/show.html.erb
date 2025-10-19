@@ -19,6 +19,11 @@
 
       <div class="mt-4 d-flex justify-content-between">
         <%= link_to "Back to All Orders", received_orders_path, class: "btn btn-secondary" %>  
+        <%= button_to "Delivered", 
+              received_order_path(@order), 
+              method: :delete, 
+              class: "btn btn-success", 
+              data: { confirm: "Are you sure?" } %>
         <div class="d-flex gap-2">
             <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
         </div>

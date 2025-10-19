@@ -12,6 +12,17 @@ class ReceivedOrdersController < ApplicationController
     end
   end
 
+  def destroy
+    @order = Order.find(params[:id])
+    if @order.product.user == current_user
+      DelivermailerMailer.with(user: @order.user, order: @order).deliver_email.deliver_now
+      @order.destroy
+      redirect_to @order, notice: "Order was removed as it is delivered."
+    else
+      redirect_to root_path, alert: "You are not authorized to delete this product."
+    end
+  end
+
   private
 
   def require_login

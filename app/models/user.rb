@@ -5,6 +5,7 @@ class User < ApplicationRecord
     has_many :orders
     before_create :generate_verification_code
     validates :username, presence: true
+    enum :role, { buyer: 'buyer', seller: 'seller' }
     validates :email, presence: true,
                uniqueness: { case_sensitive: false },
                length: { maximum: 105 },

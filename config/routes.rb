@@ -21,6 +21,6 @@ Rails.application.routes.draw do
     resources :orders, only: [:new, :create] 
   end
   resources :orders, only: [:index, :show, :edit, :update, :destroy]
-  resources :received_orders, only: [:index, :show]
+  resources :received_orders, only: [:index, :show, :destroy]
 end
 
