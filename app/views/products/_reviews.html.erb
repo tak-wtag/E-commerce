@@ -1,0 +1,33 @@
+<div class="mt-4">
+  <h5>Reviews (<%= @product.reviews_count %>) </h5> 
+  <h5>Average Rating: <%= @product.average_rating %></h5>
+
+  <% unless logged_in? && current_user == @product.user %>
+    <%= render partial: 'reviews/form', locals: { product: @product } %>
+  <% end %>
+
+  <div class="list-group mt-3">
+    <% @product.reviews.order(created_at: :desc).each do |review| %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+          <h6 class="mb-1">Username: <%= review.user.username %></h6>
+          <small class="text-muted"><%= time_ago_in_words(review.created_at) %> ago</small>
+        </div>
+        <p class="mb-1 review-stars">
+            <% review.rating.times do %>
+                <span class="star-filled">★</span>
+            <% end %>
+            <% (5 - review.rating).times do %>
+                <span class="star-empty">☆</span>
+            <% end %>
+        </p>
+        <% if review.comment.present? %>
+          <p class="mb-1"><%= review.comment %></p>
+        <% end %>
+        <% if current_user == review.user %>
+          <%= button_to 'Delete', product_review_path(product, review), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create]
   delete "logout", to: "sessions#destroy"
   resources :products do
-    resources :orders, only: [:new, :create] 
+    resources :orders, only: [:new, :create]
+    resources :reviews, only: [:create, :destroy]
   end
   resources :orders, only: [:index, :show, :edit, :update, :destroy]
   resources :received_orders, only: [:index, :show, :destroy]

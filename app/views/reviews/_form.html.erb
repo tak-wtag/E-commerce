@@ -1,0 +1,24 @@
+<% if logged_in? %>
+  <%= form_with model: [ product, Review.new ], local: true do |f| %>
+    <div class="mb-2">
+      <div data-controller="stars" data-stars-target="container">
+        <% 5.times do |i| %>
+          <% star = i + 1 %>
+          <button type="button" class="btn btn-link p-0 me-1 star" data-action="click->stars#setRating" data-stars-value="<%= star %>">☆</button>
+        <% end %>
+
+  <%= f.hidden_field :rating, value: nil, data: { 'stars-target': 'rating' } %>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <%= f.text_area :comment, class: 'form-control', placeholder: 'Write a short review (optional)', rows: 3 %>
+    </div>
+
+    <div>
+      <%= f.submit 'Submit Review', class: 'btn btn-primary btn-sm' %>
+    </div>
+  <% end %>
+<% else %>
+  <p>Please <%= link_to 'log in', sessions_new_path %> to leave a review.</p>
+<% end %>

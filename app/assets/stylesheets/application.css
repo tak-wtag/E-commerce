@@ -8,3 +8,34 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+.star {
+  font-size: 1.5rem; 
+  color: gold; 
+  background: none; 
+  border: none; 
+  padding: 0; 
+  cursor: pointer; 
+  outline: none; 
+}
+
+.star.filled {
+  color: gold; 
+}
+
+
+.star:hover {
+  color: orange; 
+}
+
+.review-stars {
+  font-size: 1.25rem; 
+  line-height: 1;
+}
+
+.review-stars .star-filled {
+  color: gold;
+}
+
+.review-stars .star-empty {
+  color: gold; 
+}

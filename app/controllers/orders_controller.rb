@@ -68,7 +68,7 @@ class OrdersController < ApplicationController
 
   def require_login
     unless logged_in?
-      edirect_to sessions_new_path, alert: "You must be logged in to place an order."
+      redirect_to sessions_new_path, alert: "You must be logged in to place an order."
     end
   end
 end
