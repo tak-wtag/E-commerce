@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :require_login
   before_action :set_product, only: [:new, :create]
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :destroy]
   def index
     @orders = current_user.orders.includes(product: :user).order(created_at: :desc)
   end
@@ -25,22 +25,6 @@ class OrdersController < ApplicationController
       redirect_to @product, notice: 'Thank you for your order!'
     else
       render :new, status: :unprocessable_entity
-    end
-  end
-
-  def edit
-    redirect_to root_path, alert: "You are not authorized to edit this product." unless @order.user == current_user
-  end
-
-  def update
-    if @order.user == current_user
-      if @order.update(order_params)
-        redirect_to @order, notice: "Order was successfully updated."
-      else
-        render :edit, status: :unprocessable_entity
-      end
-    else
-      redirect_to root_path, alert: "You are not authorized to edit this product."
     end
   end
 
