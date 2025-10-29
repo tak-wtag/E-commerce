@@ -3,14 +3,12 @@ class OrdersController < ApplicationController
   before_action :set_product, only: [:new, :create]
   before_action :set_order, only: [:show, :destroy]
   def index
-    @orders = current_user.orders.includes(product: :user).order(created_at: :desc)
+    @orders = policy_scope(Order).includes(product: :user).order(created_at: :desc)
   end
 
   def show
     @order = Order.find(params[:id])
-    unless @order.user == current_user
-      redirect_to received_orders_path, alert: "You are not authorized to view this order."
-    end
+    authorize @order
   end
   def new
     @order = @product.orders.new
@@ -19,6 +17,8 @@ class OrdersController < ApplicationController
   def create
     @order = @product.orders.new(order_params)
     @order.user = current_user 
+
+    authorize @order
 
     if @order.save
       OrderMailer.with(user: @product.user, order: @order).order_email.deliver_now
@@ -29,12 +29,9 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    if @order.user == current_user
-      @order.destroy
-      redirect_to @order, notice: "Order was successfully destroyed."
-    else
-      redirect_to root_path, alert: "You are not authorized to delete this product."
-    end
+    authorize @order
+    @order.destroy
+    redirect_to @order, notice: "Order was successfully destroyed."
   end
 
   private

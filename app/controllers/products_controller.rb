@@ -1,7 +1,6 @@
 class ProductsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_seller!, only: [:new, :create, :edit, :update, :destroy]
 
   
   def index
@@ -20,6 +19,8 @@ class ProductsController < ApplicationController
   
   def create
     @product = current_user.products.build(product_params)
+    authorize @product
+
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
     else
@@ -29,28 +30,22 @@ class ProductsController < ApplicationController
 
   
   def edit
-    redirect_to root_path, alert: "You are not authorized to edit this product." unless @product.user == current_user
+    authorize @product
   end
 
   def update
-    if @product.user == current_user
-      if @product.update(product_params)
-        redirect_to @product, notice: "Product was successfully updated."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    authorize @product
+    if @product.update(product_params)
+      redirect_to @product, notice: "Product was successfully updated."
     else
-      redirect_to root_path, alert: "You are not authorized to edit this product."
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @product.user == current_user
-      @product.destroy
-      redirect_to products_url, notice: "Product was successfully destroyed."
-    else
-      redirect_to root_path, alert: "You are not authorized to delete this product."
-    end
+    authorize @product
+    @product.destroy
+    redirect_to products_url, notice: "Product was successfully destroyed."
   end
 
   private
@@ -60,7 +55,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    # Permit the :picture attribute for Active Storage
     params.require(:product).permit(:title, :price, :availability, :picture)
   end
 
