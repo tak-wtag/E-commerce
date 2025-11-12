@@ -14,7 +14,9 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
-    flash[:alert] = exception.message || "You are not authorized to perform this action."
+    action = exception.message.sub(/\w+Policy#(\w+)\?/, '\1')
+    message = "You " + action
+    flash[:alert] = message || "You are not authorized to perform this action."
     redirect_to(request.referer || root_path)
   end
 end
