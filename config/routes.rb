@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   get "received_orders/index"
   get "received_orders/show"
   get "orders/new"
@@ -23,5 +24,7 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:index, :show, :destroy]
   resources :received_orders, only: [:index, :show, :destroy]
+
+  mount Api => '/'
 end
 

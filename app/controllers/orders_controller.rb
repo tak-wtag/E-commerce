@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
   def create
     @order = @product.orders.new(order_params)
     @order.user = current_user 
+    @order.status = 'pending'
 
     authorize @order
 

@@ -1,0 +1,19 @@
+current directory: /Users/welldev/my-app/vendor/bundle/ruby/3.4.0/gems/erb-6.0.0/ext/erb/escape
+/Users/welldev/.local/share/mise/installs/ruby/3.4.5/bin/ruby extconf.rb
+checking for rb_ext_ractor_safe() in ruby.h... yes
+creating Makefile
+
+current directory: /Users/welldev/my-app/vendor/bundle/ruby/3.4.0/gems/erb-6.0.0/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251124-5377-jj6ays sitelibdir\=./.gem.20251124-5377-jj6ays clean
+
+current directory: /Users/welldev/my-app/vendor/bundle/ruby/3.4.0/gems/erb-6.0.0/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251124-5377-jj6ays sitelibdir\=./.gem.20251124-5377-jj6ays
+compiling escape.c
+linking shared-object erb/escape.bundle
+
+current directory: /Users/welldev/my-app/vendor/bundle/ruby/3.4.0/gems/erb-6.0.0/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251124-5377-jj6ays sitelibdir\=./.gem.20251124-5377-jj6ays install
+/usr/bin/install -c -m 0755 escape.bundle ./.gem.20251124-5377-jj6ays/erb
+
+current directory: /Users/welldev/my-app/vendor/bundle/ruby/3.4.0/gems/erb-6.0.0/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251124-5377-jj6ays sitelibdir\=./.gem.20251124-5377-jj6ays clean
