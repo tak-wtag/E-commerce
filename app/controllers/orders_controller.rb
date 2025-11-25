@@ -2,6 +2,8 @@ class OrdersController < ApplicationController
   before_action :require_login
   before_action :set_product, only: [:new, :create]
   before_action :set_order, only: [:show, :destroy]
+  caches_action :index, expires_in: 1.hour
+  caches_page :show, expires_in: 1.hour
   def index
     @orders = policy_scope(Order).includes(product: :user).order(created_at: :desc)
   end

@@ -1,10 +1,11 @@
 class ProductsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-
   
   def index
-    @products = Product.all
+    @products = Rails.cache.fetch("products_list") do
+      Product.all
+    end
   end
 
   

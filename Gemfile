@@ -33,6 +33,9 @@ gem 'sidekiq-scheduler'
 
 gem 'doorkeeper', '~> 5.8'
 
+gem 'actionpack-page_caching'
+gem 'actionpack-action_caching'
+
 gem 'rack', '~> 2.2'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
