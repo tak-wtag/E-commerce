@@ -3,9 +3,9 @@ class CreateOrders < ActiveRecord::Migration[8.0]
     create_table :orders do |t|
       t.references :user, null: false, foreign_key: true
       t.references :product, null: false, foreign_key: true
-      t.integer :quantity
+      t.integer :quantity, null: false
       t.string :status
-      t.string :address
+      t.string :address, null: false
       t.string :criteria
 
       t.timestamps

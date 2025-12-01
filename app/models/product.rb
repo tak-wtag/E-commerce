@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   belongs_to :user
   has_many :orders
   has_many :reviews, dependent: :destroy
+  validates :title, presence: true
+  validates :price, presence: true
 
   def average_rating
     return 0 if reviews.empty?
