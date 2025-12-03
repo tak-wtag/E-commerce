@@ -38,4 +38,4 @@
 .DS_Store
 
 *.iml
-/vendor/bundle
+/vendor/bundle/*
