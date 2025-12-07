@@ -10,6 +10,10 @@ class OrderPolicy < ApplicationPolicy
   def destroy?
     user.present? && (record.user_id == user.id || record.product.user_id == user.id)
   end
+  
+  def mark_as_delivered?
+    user.present? && user.seller? && record.product.user_id == user.id
+  end
 
   class Scope < Scope
     def resolve

@@ -1,3 +1,4 @@
+<%# app/views/received_orders/show.html.erb %>
 <div class="container mt-5">
   <h1 class="display-5 fw-bold mb-4">Order Details</h1>
   <div class="card shadow-sm">
@@ -5,7 +6,25 @@
       <h5 class="card-title">Product: <%= @order.product.title %></h5>
       <p class="card-text"><strong>Order Date:</strong> <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
       <p class="card-text"><strong>Quantity:</strong> <%= @order.quantity %></p>
-      <p class="card-text"><strong>Status:</strong> <span class="badge bg-primary"><%= @order.status %></span></p>
+      <p class="card-text">
+        <strong>Status:</strong> 
+        <span class="badge <%= @order.status == 'delivered' ? 'bg-success' : 'bg-primary' %>">
+          <%= @order.status %>
+        </span>
+      </p>
+
+      <% if @order.status == 'delivered' && @order.delivered_at %>
+        <p class="card-text">
+          <strong>Delivered On:</strong> 
+          <%= @order.delivered_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </p>
+        
+        <% if @order.can_be_deleted? %>
+          <p class="text-danger">
+            <strong>Note:</strong> This order was delivered more than 10 days ago and can now be removed.
+          </p>
+        <% end %>
+      <% end %>
 
       <hr class="my-4">
 
@@ -19,13 +38,25 @@
 
       <div class="mt-4 d-flex justify-content-between">
         <%= link_to "Back to All Orders", received_orders_path, class: "btn btn-secondary" %>  
-        <%= button_to "Delivered", 
-              received_order_path(@order), 
-              method: :delete, 
-              class: "btn btn-success", 
-              data: { confirm: "Are you sure?" } %>
+        
         <div class="d-flex gap-2">
-            <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+          <% if @order.status == 'pending' %>
+            <%= button_to "Mark as Delivered", 
+                  mark_as_delivered_received_order_path(@order), 
+                  method: :patch, 
+                  class: "btn btn-success", 
+                  data: { confirm: "Are you sure you want to mark this order as delivered?" } %>
+          <% end %>
+          
+          <% if @order.can_be_deleted? %>
+            <%= button_to "Delete This Order", 
+                  received_order_path(@order), 
+                  method: :delete, 
+                  class: "btn btn-danger", 
+                  data: { confirm: "Are you sure you want to permanently delete this order? This action cannot be undone." } %>
+          <% end %>
+          
+          <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
         </div>
       </div>
     </div>

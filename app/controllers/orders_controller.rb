@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :destroy]
   caches_action :index, expires_in: 1.hour
   caches_page :show, expires_in: 1.hour
+  
   def index
     @orders = policy_scope(Order).includes(product: :user).order(created_at: :desc)
   end
@@ -12,6 +13,7 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     authorize @order
   end
+  
   def new
     @order = @product.orders.new
   end
@@ -33,8 +35,14 @@ class OrdersController < ApplicationController
 
   def destroy
     authorize @order
-    @order.destroy
-    redirect_to @order, notice: "Order was successfully destroyed."
+    
+    if @order.can_be_deleted?
+      @order.destroy
+      redirect_to orders_path, notice: "Order was successfully removed."
+    else
+      redirect_to order_path(@order), 
+                  alert: "Order can only be removed 10 days after delivery."
+    end
   end
 
   private
@@ -42,6 +50,7 @@ class OrdersController < ApplicationController
   def set_product
     @product = Product.find(params[:product_id])
   end
+  
   def set_order
     @order = Order.find(params[:id])
   end

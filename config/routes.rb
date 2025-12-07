@@ -23,7 +23,12 @@ Rails.application.routes.draw do
     resources :reviews, only: [:create, :destroy]
   end
   resources :orders, only: [:index, :show, :destroy]
-  resources :received_orders, only: [:index, :show, :destroy]
+
+  resources :received_orders, only: [:index, :show, :destroy] do
+    member do
+      patch :mark_as_delivered
+    end
+  end
 
   mount Api => '/'
 
