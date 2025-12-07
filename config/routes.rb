@@ -26,5 +26,7 @@ Rails.application.routes.draw do
   resources :received_orders, only: [:index, :show, :destroy]
 
   mount Api => '/'
+
+  match '*unmatched_route', to: 'application#route_not_found', via: :all
 end
 

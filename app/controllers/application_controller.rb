@@ -4,7 +4,20 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  def route_not_found
+    flash[:alert] = "The page you requested could not be found."
+    redirect_to root_path
+  end
+
+  
   private
+
+  def record_not_found  
+    flash[:alert] = "The record you're looking for doesn't exist."
+    redirect_to root_path
+  end
 
   def require_login
     unless logged_in?
@@ -18,5 +31,5 @@ class ApplicationController < ActionController::Base
     message = "You " + action
     flash[:alert] = message || "You are not authorized to perform this action."
     redirect_to(request.referer || root_path)
-  end
+  end  
 end
