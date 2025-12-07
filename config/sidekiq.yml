@@ -1,0 +1,12 @@
+:concurrency: 5
+:queues:
+  - default
+  - mailers
+
+
+:schedule:
+  daily_pending_orders_summary:
+    cron: '10 08 * * *'   
+    class: FindPendingOrdersJob
+    queue: default
+    description: "Sends emails to sellers about pending orders"

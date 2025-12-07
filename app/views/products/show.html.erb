@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <% if @product.picture.attached? %>
+        <div class="text-center mb-4">
+          <%= image_tag @product.picture, style: "max-width: 250px; height: auto;" %>
+        </div>
+      <% end %>
+      
+      <h1 class="card-title"><%= @product.title %></h1>
+      <p class="fs-4 text-success">$<%= @product.price %></p>
+      <p class="text-muted">Sold by: <%= @product.user.username %></p>
+      
+      <p><strong>Status:</strong> 
+        <% if @product.availability? %>
+          <span class="badge bg-success">Available</span>
+        <% else %>
+          <span class="badge bg-danger">Unavailable</span>
+        <% end %>
+      </p>
+
+      <div class="mt-4 d-flex gap-2">
+        <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
+        <% if logged_in? %>
+            <% if current_user == @product.user %>
+                <%= link_to "Edit", edit_product_path(@product), class: "btn btn-warning" %>
+                <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+                <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+            <% else %>
+                <%= link_to "Buy Now", new_product_order_path(@product), class: "btn btn-primary" %>
+                <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger"%>
+            <% end %>
+        <% else %>
+            <%= link_to "Log In", sessions_new_path, class: "btn btn-success" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'products/reviews', locals: { product: @product } %>

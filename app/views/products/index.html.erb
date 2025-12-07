@@ -1,0 +1,50 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold">Products</h1>
+    <% if logged_in? %>
+        <div class="d-flex flex-column gap-2">
+            <% if current_user.seller? %>
+              <%= link_to "Add New Product", new_product_path, class: "btn btn-primary" %>
+              <%= link_to "Received Orders", received_orders_path, class: "btn btn-primary" %>
+              <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= link_to "My Orders", orders_path, class: "btn btn-primary" %>
+              <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+            <% end %>
+        </div>
+    <%else%>
+        <%= link_to "Log In", sessions_new_path, class: "btn btn-success" %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <% if product.picture.attached? %>
+          <div class="text-center p-3" style="height: 200px; overflow: hidden;">
+            <%= image_tag product.picture, 
+                          class: "img-fluid",
+                          style: "max-height: 180px; width: auto; object-fit: contain;" %>
+          </div>
+          <% else %>
+            <div class="text-center p-3 bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+              <span class="text-muted">No Image</span>
+            </div>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to product.title, product_path(product), class: "text-decoration-none stretched-link" %>
+            </h5>
+            <p class="card-text text-success fs-5">$<%= product.price %></p>
+            <p class="card-text text-muted">
+              <small>
+                Status: <%= product.availability? ? 'Available' : 'Unavailable' %>
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

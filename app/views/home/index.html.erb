@@ -1,5 +1,6 @@
 <div class="container mt-5" style="max-width: 720px;">
   <h1 class="display-5 fw-bold mb-4">Welcome To our Application</h1>
+
   <% if current_user %>
     <div class="card shadow-sm">
       <div class="card-body p-4">
@@ -13,7 +14,12 @@
           </div>
         <% end %>
         
-        <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger mt-4" %>
+        <%# --- CHANGES START HERE --- %>
+        <div class="mt-4 d-flex gap-2">
+          <%= link_to "See All Products", products_path, class: "btn btn-info" %>
+          <%= button_to "Log Out", logout_path, method: :delete, class: "btn btn-danger" %>
+        </div>
+        <%# --- CHANGES END HERE --- %>
       </div>
     </div>
   <% else %>
@@ -22,10 +28,14 @@
         <p class="fs-5">Please sign up or log in to continue.</p>
         <div class="mt-4 d-flex gap-2">
           <%= link_to "Sign Up", sign_up_path, class: "btn btn-primary" %>
+          
+          <%# Corrected login_path for consistency %>
           <%= link_to "Log In", sessions_new_path, class: "btn btn-success" %>
+          
+          <%# --- NEW BUTTON ADDED HERE --- %>
+          <%= link_to "See All Products", products_path, class: "btn btn-info" %>
         </div>
       </div>
     </div>
   <% end %>
 </div>
-

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       if user.verified?
         session[:user_id] = user.id
-        redirect_to user, notice: t('session.login')
+        redirect_to products_path, notice: t('session.login')
       else
         redirect_to verify_user_path(user), alert: t('session.verify_account')
       end

@@ -1,8 +1,12 @@
 require 'securerandom'
 class User < ApplicationRecord
     has_secure_password 
+    has_many :products
+    has_many :orders
+    has_many :reviews, dependent: :nullify
     before_create :generate_verification_code
     validates :username, presence: true
+    enum :role, { buyer: 'buyer', seller: 'seller' }
     validates :email, presence: true,
                uniqueness: { case_sensitive: false },
                length: { maximum: 105 },
